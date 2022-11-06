@@ -3,6 +3,7 @@ import { Banner } from '../components/Banner';
 import { Header } from "../components/Header";
 import { ProductFeed } from "../components/ProductFeed";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import { getSession } from "next-auth/react";
 
 export default function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
@@ -22,10 +23,14 @@ export default function Home({ products }: InferGetServerSidePropsType<typeof ge
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    // Избавляемся от того, что по дефолту юзер не залогинен
+    const session = await getSession(context);
+
     const products: IProduct[] = await fetch('https://fakestoreapi.com/products').then((res) => res.json());
     return {
         props: {
-            products
+            products,
+            session
         }
     }
 }

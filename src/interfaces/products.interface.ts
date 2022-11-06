@@ -5,8 +5,9 @@ interface IProduct {
     description: string;
     category: string;
     image: string;
-    rating: {
-        rate: number;
-        count: number;
-    }
+    rating: number;
+}
+
+interface ICheckoutProduct extends IProduct {
+    hasPrime: boolean;
 }
